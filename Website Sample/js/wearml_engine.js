@@ -12,7 +12,7 @@
 /*----------------------- SOURCE MODULE INFORMATION -------------------------+
  |
  | Source Name:  WearML Engine
- | Version: v0.9
+ | Version: v0.9.1
  | Date: August 2017
  | Author: Luke Hopkins
  |
@@ -73,14 +73,20 @@ function getAllElementsWithAttribute(attribute)
     //Check element to see if it has atleast one of our tags
     if (allElements[i].getAttribute('data-wml-style') !== null || allElements[i].getAttribute('data-wml-speech-command') !== null || allElements[i].tagName != "DIV")
     {
+        if(allElements[i].tagName == "SCRIPT")
+            return;
+        console.log(allElements[i].tagName);
         var styleId = allElements[i].getAttribute('data-wml-style');
         var command = allElements[i].text;
 
         var speech_command = allElements[i].getAttribute('data-wml-speech-command');
 
-        if(speech_command != undefined){
+
+        if(speech_command == undefined || speech_command == " " || speech_command == ""){
+
+        }else {
             command = speech_command;
-        }
+
 
         if(allElements[i].id === ""){
             allElements[i].id = guid();
@@ -90,6 +96,7 @@ function getAllElementsWithAttribute(attribute)
         var element = {tag: command, id: allElements[i].id,x: position.x, y: position.y, styleId: styleId };
       // Element exists with attribute. Add to array.
         wearMLElements.push(element);
+        }
     }
   }
   return wearMLElements;
@@ -148,7 +155,11 @@ function generateXML(){
   }
 
    xml += "</WearML>";
-   return window.btoa(xml);
+   return utf8_to_b64(xml);
+}
+
+function utf8_to_b64( str ) {
+    return window.btoa(unescape(encodeURIComponent( str )));
 }
 
 /**
@@ -397,4 +408,3 @@ function wearMLParser(e, element) {
     }
     return attributes;
 }
-

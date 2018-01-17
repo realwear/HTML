@@ -1,7 +1,7 @@
 ## 0.9.3
 
  * Dom Mutation - Events fire when dom elements are removed - forced refresh
- * SVG Elements now supports
+ * SVG Elements now supported
  * DOM elements can now be tagged when a click event is present
 
 ## 0.9.2

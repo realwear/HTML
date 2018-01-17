@@ -1,6 +1,11 @@
+## Import WearML-Engine ##
+
+The latest version of [wearMl_engine.js](https://github.com/realwear/HTML/blob/master/js/wearml_engine-min.js). After downloading include the javascript file to your web page. The script will only execute on android based devices with a screen size of 480x854.
+
+
 ## Adding a Speech Command ##
 
-Once you have added the javascript file to your web page you can start adding speech commands to your html elements. Adding data-wml-speech-command="" to your element along with the speech command you want to register will allow the wearML engine to detect which element you would like to speech enable.
+Once you have added the javascript file to your web page you can start adding speech commands to your HTML elements. Adding data-wml-speech-command="" to your element along with the speech command you want to register will allow the wearML engine to detect which element you would like to speech enable.
 
 ```javascript
 <input data-wml-speech-command="Enter Username" class="form-control" type="text" placeholder="Username"/>
@@ -11,11 +16,11 @@ Once you have added the javascript file to your web page you can start adding sp
 
 There are two ways a developer can receive a call back for a speech command. 
 
-* Use elements onClick event handler:
+* Use the elements onClick event handler:
 
 ``` onclick="myfunction()"```
 
-the function will be called when a speech command is recognized.
+This function will be called when a speech command is recognized.
 
 * Register a wearML callback:
 
@@ -25,15 +30,16 @@ wearML.voiceCommandsCallBack = function(command){
 }
 ```
 
-This function will be called everytime a speech command is spoken and the variable will contain the said command.
+This function will be called everytime a speech command is spoken and the variable will contain said command.
 
 ## Updating Voice Commands ##
 
 In order to update voice commands the wearML engine will use a MutationObserver to detect the adding and removing of html dom elements. If you are finding that speech-commands and overlay's are not correctly updating when changing your html content you can call the public method: 
+
 ```javascript
-wearML.updateCommands()"
+wearML.updateCommands()
 ```
-At any point and this will force the WearMLEngine to reload grammer and overlayers.
+This will force the WearMLEngine to reload grammer and overlays.
 
 ## WearML Overlays ##
 
@@ -55,7 +61,7 @@ In order to customise the wearML overlay first create a CSS style and add custom
 Add the style to your dom element:
 
 ```javascript
-                    <input data-wml-style=".nativeSpeechRightAligned" data-wml-speech-command="Enter Username"
+<input data-wml-style=".nativeSpeechRightAligned" data-wml-speech-command="Enter Username"
                            class="form-control" type="text" placeholder="Username"/>
 ```
 

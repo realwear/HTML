@@ -8,7 +8,10 @@ The general approach for speech enabling web pages relies on the use of JavaScri
 
 WearML gives the developer greater control over the user interface of a webpage – additional captions or hints can be overlaid onto any webpage, with a great deal of artistic control, to indicate to the user which controls are speech enabled.
 
-All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT
+All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT.
+
+
+![Example](https://github.com/realwear/HTML/blob/master/images/example_1.png?raw=true)
 
 ## Example - Coming Soon
 

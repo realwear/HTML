@@ -3,10 +3,8 @@
 Once you have added the javascript file to your web page you can start adding speech commands to your html elements. Adding data-wml-speech-command="" to your element along with the speech command you want to register will allow the wearML engine to detect which element you would like to speech enable.
 
 ```javascript
-                   <input data-wml-speech-command="Enter Username"
-                           class="form-control" type="text" placeholder="Username"/>
+<input data-wml-speech-command="Enter Username" class="form-control" type="text" placeholder="Username"/>
 ```
-
 
 ## Receiving a Speech Command ##
 

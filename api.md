@@ -1,6 +1,6 @@
 ## Import WearML-Engine ##
 
-The latest version of [wearMl_engine.js](https://github.com/realwear/HTML/blob/master/js/wearml_engine-min.js). After downloading include the javascript file to your web page. The script will only execute on android based devices with a screen size of 480x854.
+The latest version of [wearML_engine.js](https://github.com/realwear/HTML/blob/master/js/wearml_engine-min.js). After downloading include the javascript file to your web page. The script will only execute on android based devices with a screen size of 480x854.
 
 
 ## Adding a Speech Command ##

@@ -18,7 +18,7 @@ There are two ways a developer can receive a call back for a speech command.
 
 * Use the elements onClick event handler:
 
-``` onclick="myfunction()"```
+```javascript onclick="myfunction()"```
 
 This function will be called when a speech command is recognized.
 

@@ -11,13 +11,13 @@ WearML gives the developer greater control over the user interface of a webpage 
 All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT.
 
 
-![Example](https://github.com/realwear/HTML/blob/master/images/example_1.png?raw=true)
+![Example](https://github.com/realwear/HTML/blob/gh-pages/images/example_1.png?raw=true)
 
 ## Example - Coming Soon
+
+## [API](https://realwear.github.io/HTML/api)
 
 ## [Tutorial](https://realwear.github.io/HTML/tutorial)
 
 ## [Release Notes](https://realwear.github.io/HTML/release-notes)
-
-## [API](https://realwear.github.io/HTML/api)
 

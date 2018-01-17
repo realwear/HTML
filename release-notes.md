@@ -1,18 +1,21 @@
-## Introduction
+## 0.9.3
 
-HMT-1 is fundamentally an Android 6.0 device. It runs standard Android applications and web pages.
+ * Dom Mutation - Events fire when dom elements are removed - forced refresh
+ * SVG Elements now supports
+ * DOM elements can now be tagged when a click event is present
 
-The general approach for speech enabling web pages relies on the use of JavaScript as a middle language, bridging the HMT-1 web browser and the underlying WearHF speech engine. Once the javascript file is included into the webpage WearML tags can be freely embedded into the webpage. These tags will provide hints to the speech engine, determining what should be speech enabled, and as importantly, what should not be speech enabled.
+## 0.9.2
 
-WearML gives the developer greater control over the user interface of a webpage – additional captions or hints can be overlaid onto any webpage, with a great deal of artistic control, to indicate to the user which controls are speech enabled.
+ * Javascript only runs on android based devices with a screen size of 480x854
+ * Reload of grammer after button click
 
-All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT
+ 
+## 0.9.1
 
-## Example
-
-## Tutorial
-
-## Release Notes
-
-## API
-
+ * public method for updating commands.
+ * public callback event for receiving commands.
+ 
+## 0.9.0
+ 
+ * WearML Overlay styling support using CSS.
+ 

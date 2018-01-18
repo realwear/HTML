@@ -53,7 +53,7 @@ h1 {
     font-weight: 500;
 }
 .home-header {
-    background: #333333;
+    background-color: #333333;
     padding: 4rem 1rem;
     h1 {
         color: white;
@@ -75,15 +75,7 @@ h1 {
     background-size:cover;
     &.product {
         background: #333333;
-        background-image: url(../images/image-bg.jpg);
-        .content {
-            margin-left: 55%;
-            text-align: left;
-            @include small { 
-                margin-left: 0;
-                text-align: center;
-            }
-        }
+        background-image: url(../images/image-bg3.jpg);
         @include large {
             padding: 3rem 6rem;
         }

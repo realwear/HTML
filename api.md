@@ -7,7 +7,7 @@ The latest version of [wearML_engine.js](https://github.com/realwear/HTML/blob/m
 
 Once you have added the javascript file to your web page you can start adding speech commands to your HTML elements. Adding data-wml-speech-command="" to your element along with the speech command you want to register will allow the wearML engine to detect which element you would like to speech enable.
 
-```javascript
+```html
 <input data-wml-speech-command="Enter Username" class="form-control" type="text" placeholder="Username"/>
 ```
 
@@ -18,7 +18,7 @@ There are two ways a developer can receive a call back for a speech command.
 
 * Use the elements onClick event handler:
 
-```javascript onclick="myfunction()"```
+```html onclick="myfunction()"```
 
 This function will be called when a speech command is recognized.
 
@@ -45,9 +45,11 @@ This will force the WearMLEngine to reload grammer and overlays.
 
 WearML Overlays are the hints provided by WearHF to help the user with navigating the current screen. WearML overlay's have many attributes and options to choose from in order to provided helpful hints to the user. There are many features contained in the wearML overlays and the API can be found below for reference. 
 
+![Image](https://github.com/realwear/HTML/blob/gh-pages/images/image020.png?raw=true)
+
 In order to customise the wearML overlay first create a CSS style and add custom css attributes using "--" and then appended the WearML Style attribute you wish to use.
 
-```javascript
+```css
 <style>
         .nativeSpeechRightAligned{
             --overlay_show_number:false;
@@ -60,7 +62,7 @@ In order to customise the wearML overlay first create a CSS style and add custom
 
 Add the style to your dom element:
 
-```javascript
+```html
 <input data-wml-style=".nativeSpeechRightAligned" data-wml-speech-command="Enter Username"
                            class="form-control" type="text" placeholder="Username"/>
 ```

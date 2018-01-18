@@ -1,0 +1,165 @@
+---
+---
+
+@import 'jekyll-theme-cayman';
+
+
+.text-right {
+    float: right;
+    @include small {
+        float: none;
+        text-align: center;
+    }
+}
+.text-center {
+    text-align: center;
+}
+.github img {
+    vertical-align: middle;
+    margin-left: 5px;
+} 
+@include small { 
+    .github span {
+        display: none;
+    }
+}
+
+.grey-bg {
+    background-color:#E7E7E7;
+}
+.site-header {
+    @include large {
+    max-width: 64rem;
+    padding: 1rem 6rem;
+    margin: 0 auto;
+    font-size: 1.1rem;
+  }
+
+  @include medium {
+    padding: 1rem 4rem;
+    font-size: 1.1rem;
+  }
+
+  @include small {
+    padding: 1rem 1rem;
+    font-size: 1rem;
+      text-align: center;
+  }
+}
+h1 {
+    font-weight: 500;
+}
+.home-header {
+    background: #333333;
+    padding: 4rem 1rem;
+    h1 {
+        color: white;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 500;
+        @include medium {
+            font-size: 2rem;
+        }
+        @include small {
+            font-size: 2rem;
+        }
+    }
+}
+.page-header {
+    background-image: url(../images/image-bg3.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    &.product {
+        background: #333333;
+        background-image: url(../images/image-bg.jpg);
+        .content {
+            margin-left: 55%;
+            text-align: left;
+            @include small { 
+                margin-left: 0;
+                text-align: center;
+            }
+        }
+        @include large {
+            padding: 3rem 6rem;
+        }
+    }
+}
+.flex-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 0 -0.3rem;
+
+    .flex-item {
+        background: #999999;
+        flex: 1 1 calc(15% - 1rem);
+        margin: 0.3rem;
+        padding: 0.2rem;
+        text-align: center;
+        line-height: 6rem;
+        font-weight: 600;
+        color: #fff;
+        transition: background 0.5s;
+        text-decoration: none;
+        @include medium { 
+            flex: 1 1 calc(33.33% - 1rem);
+        }
+        @include small {
+            flex: 1 1 calc(50% - 1rem);
+        }
+        &:hover {
+            background: #4822A9;
+        }
+    }
+}
+
+.btn {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    font-size: 0.9rem;
+    padding: 1.2em 3em;
+    min-width: 15rem;
+    text-align: center;
+    transition: 0.3s ease all;
+    -moz-transition: 0.3s ease all;
+    -webkit-transition: 0.3s ease all;
+    color: white;
+    border: 1px solid white;
+    border-radius: 0;
+    &.dark {
+        color: #9a9a9a;
+        border: 1px solid #9a9a9a;
+    }
+    &:hover {
+        text-decoration: none;
+        background: $core-purple;
+        color: white;
+        border-color: $core-purple;
+    }
+}
+.icon-block {
+    position: relative;
+    padding-left: 110px;
+    img {
+        width: 80px;
+        position: absolute;
+        top:0;
+        left: 0;
+        @include small {
+            position: static;
+        }
+    }
+}
+.main-content h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    @include small {
+        font-size: 1.6rem;
+    }
+}
+.block.familiar {
+    margin: 2rem 0;
+}

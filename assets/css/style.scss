@@ -75,7 +75,7 @@ h1 {
     background-size:cover;
     &.product {
         background: #333333;
-        background-image: url(../images/image-bg3.jpg);
+        background-image: url(../images/product-bg.jpg);
         @include large {
             padding: 3rem 6rem;
         }

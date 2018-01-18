@@ -3,7 +3,10 @@
 
 @import 'jekyll-theme-cayman';
 
-
+a {
+    color: #451cab;
+    font-weight: 500;
+}
 .text-right {
     float: right;
     @include small {
@@ -167,5 +170,11 @@ h1 {
     text-align: center;
 }
 .visit {
-    margin-bottom: 0;
+    margin-bottom: 5px !important;
+    a {
+        font-weight: 
+    }
+}
+.site-footer-owner {
+    font-weight: normal;
 }

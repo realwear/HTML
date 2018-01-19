@@ -70,9 +70,9 @@ Add the style to your dom element:
 
 
 ## DOM Attribute
-|  Attribute | Description |
-| --- | --- |
-data-wml-speech-command  | String  | text|content_description|no|xxxx	Optional: Defines the source for the speech command. text will take the text attribute from the component. content_description will use that attribute from the component. no will turn the voice command off on the component all together. xxxx You are also able to provide a custom voice command here, e.g. xxxx
+|  Attribute | DataType |  Description |
+| --- | --- | --- |
+data-wml-speech-command  | String  | text/content_description/no/xxxx	Optional: Defines the source for the speech command. text will take the text attribute from the component. content_description will use that attribute from the component. no will turn the voice command off on the component all together. xxxx You are also able to provide a custom voice command here, e.g. xxxx
 data-wml-style  | String  |	Optional: References to a CSS style using the classname.
 
 ## CSS Attribute
@@ -90,6 +90,6 @@ data-wml-style  | String  |	Optional: References to a CSS style using the classn
 --overlay_show_icon | Boolean  |Optional: Turns microphone icon on or off for the element. On by default if there is a text overlay
 --hf_scroll | String | "None" = switches off headtracker "Horizontal" = Headtracker only works horizontally "Vertical" = Headtracker only work vertically
 --text_field | String | "Dictation keyboard will open in dictation mode "keyboard" = default keyboard "barcode" barcode reader will open | Optional: On text field elements this will indicate what keyboard should be opened.
---barcode | String | any, qr , code128, up, cean | Optional: Will define which type of barcode is being scanned. Ignored if the text_field isn’t set to barcde. (default = any)
+--barcode | String | any, qr , code128, up, cean  Optional: Will define which type of barcode is being scanned. Ignored if the text_field isn’t set to barcde. (default = any)
 --global_commands  | Boolean  | Optional: Disables all global commands and hides show help, doesn’t matter which component it is applied to. 
 --broadcast_results  | Boolean  | Optional: Broadcast ASR results via separate intent com.realwear.wearhf.intent.action.SPEECH_EVENT, including confidence scores. (default = no)

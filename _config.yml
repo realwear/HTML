@@ -1,3 +1,4 @@
-theme: jekyll-theme-cayman
-title: HTML
-description: Speech Enabling HTML page using WearML javascript engine
+remote_theme: "realwear/GitHubPagesTheme@product"
+
+plugins:
+  - jekyll-remote-theme

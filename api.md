@@ -80,8 +80,8 @@ Attribute | DataType | Description
 
 
 ## CSS Attribute
-Attribute | DataType | Description 
- --- | --- | --- 
+Attribute | DataType | Description
+--- | --- | --- 
 --root  | Boolean  | All elements below this will inherit the attributes provided to this dom tag unless otherwise specified. 
 --overlay_show_text   | Boolean  | Optional: Turns a text label on or off. Text on the label will be taken from the speech_command that is set. (default = no)
 --overlay_persists  | Boolean  |	Optional: Number and/or overlay won’t fade away. (default = no, fades away)

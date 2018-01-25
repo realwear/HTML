@@ -75,8 +75,13 @@ Add the style to your dom element:
 
 Attribute | DataType | Description
 --- | --- | ---
-data-wml-speech-command  | String  | text/content_description/no/xxxx	Optional: Defines the source for the speech command. text will take the text attribute from the component. content_description will use that attribute from the component. no will turn the voice command off on the component all together. xxxx You are also able to provide a custom voice command here, e.g. xxxx 
-data-wml-style  | String  |	Optional: References to a CSS style using the classname.
+--data-wml-speech-command  | String  | text/content_description/no/xxxx	Optional: Defines the source for the speech command. text will take the text attribute from the component. content_description will use that attribute from the component. no will turn the voice command off on the component all together. xxxx You are also able to provide a custom voice command here, e.g. xxxx 
+--data-wml-style  | String  |	Optional: References to a CSS style using the classname.
+
+First Header | Second Header
+------------ | -------------
+Content from cell 1 | Content from cell 2
+Content in the first column | Content in the second column
 
 ## CSS Attribute
 | Attribute | DataType | Description |

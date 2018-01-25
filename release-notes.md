@@ -1,3 +1,8 @@
+---
+title: HTML
+description: A javascript plugin which speech enables web pages 
+---
+
 ## 0.9.3
 
  * Dom Mutation - Events fire when dom elements are removed - forced refresh

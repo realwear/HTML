@@ -1,5 +1,7 @@
 ---
-link: https://realwear.box.com/s/r1lsdhql6ik1grkgffotvxyarwk3oh97
+title: HTML
+description: A javascript plugin which speech enables web pages 
+link: "#download"
 ---
 
 ## Introduction
@@ -14,14 +16,29 @@ WearML gives the developer greater control over the user interface of a webpage 
 
 All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT.
 
+## Download
+
+The JavaScript plugin can be download from the link below: 
+
+[Download Zip](https://realwear.box.com/shared/static/r1lsdhql6ik1grkgffotvxyarwk3oh97.zip)
+
+### Contents of Zip
+
+	Download link above contains:
+
+		* wearML-engine.js : This is the javascript file that should be included into a web page.
 
 ![Example](https://github.com/realwear/HTML/blob/gh-pages/images/example_1.png?raw=true)
 
-## Example - Coming Soon
-
 ## [API](https://realwear.github.io/HTML/api)
+
+The API shows all the available functionality when using the WearML JavaScript engine.
 
 ## [Tutorial](https://realwear.github.io/HTML/tutorial)
 
+The following tutorial shows how to use this plugin inside a HTML page.
+
 ## [Release Notes](https://realwear.github.io/HTML/release-notes)
+
+The release notes are available to show all the changes for each version of the plugin.
 

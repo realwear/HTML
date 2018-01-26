@@ -89,17 +89,3 @@ data-wml-style  | String  |	Optional: References to a CSS style using the classn
 Attribute | DataType | Description
 --- | --- | --- 
 root  | Boolean  | All elements below this will inherit the attributes provided to this dom tag unless otherwise specified. 
-overlay_show_text   | Boolean  | Optional: Turns a text label on or off. Text on the label will be taken from the speech_command that is set. (default = no)
-overlay_persists  | Boolean  |	Optional: Number and/or overlay won’t fade away. (default = no, fades away)
-overlay_orientation  | String  |	left,right,top,bottom	Optional: Text overlay direction (default = right)
-overlay_background_color  | String | Optional: Changes the background color of the element String is represented as HEX
-overlay_text_color  | tring | Optional: Changes the background color of the element String is represented as HEX
-overlay_border_color  | String | Optional: Changes the background color of the element String is represented as HEX
-overlay_anchor_hv  | String as "H,V" | Optional: Sets the anchor point horizontally and vertically, specified as a percentage. 0 means anchor to left,top  edge of element. 100 means anchor to right,bottom edge of element. 50 means anchor to middle of element.
-overlay_show_dot | Boolean  | Optional: Turns purple dot icon on or off for the element. Off by default
-overlay_show_icon | Boolean  | Optional: Turns microphone icon on or off for the element. On by default if there is a text overlay
-hf_scroll | String | "None" = switches off headtracker "Horizontal" = Headtracker only works horizontally "Vertical" = Headtracker only work vertically
-text_field | String | "Dictation keyboard will open in dictation mode "keyboard" = default keyboard "barcode" barcode reader will open / Optional: On text field elements this will indicate what keyboard should be opened.
-barcode | String | any, qr , code128, up, cean | Optional: Will define which type of barcode is being scanned. Ignored if the text_field isn’t set to barcde. (default = any)
-global_commands  | Boolean  | Optional: Disables all global commands and hides show help, doesn’t matter which component it is applied to.
-broadcast_results  | Boolean  | Optional: Broadcast ASR results via separate intent com.realwear.wearhf.intent.action.SPEECH_EVENT, including confidence scores. (default = no)

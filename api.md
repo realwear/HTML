@@ -91,6 +91,7 @@ data-wml-style  | String  |	Optional: References to a CSS style using the classn
 
 
 ## CSS Attribute
+
 Attribute | DataType | Description
 --- | --- | ---
 root  | Boolean  | All elements below this will inherit the attributes provided to this dom tag unless otherwise specified. 

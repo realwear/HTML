@@ -2,6 +2,8 @@
 title: HTML
 description: A javascript plugin which speech enables web pages 
 link: "#download"
+optional-page-link: http://developer.realwear.com/html-framework
+optional-page-title: HMT-1 & HTML
 ---
 
 ## Introduction
@@ -24,9 +26,9 @@ The JavaScript plugin can be download from the link below:
 
 ### Contents of Zip
 
-	Download link above contains:
+Download link above contains:
 
-		* wearML-engine.js : This is the javascript file that should be included into a web page.
+* wearML-engine.js : This is the javascript file that should be included into a web page.
 
 ![Example](https://github.com/realwear/HTML/blob/gh-pages/images/example_1.png?raw=true)
 

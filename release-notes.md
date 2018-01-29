@@ -1,6 +1,8 @@
 ---
 title: HTML
-description: A javascript plugin which speech enables web pages 
+description: Release Notes
+optional-page-link: http://developer.realwear.com/html-framework
+optional-page-title: HMT-1 & HTML
 ---
 
 ## 0.9.3

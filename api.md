@@ -1,6 +1,8 @@
 ---
 title: HTML
-description: A javascript plugin which speech enables web pages 
+description: API
+optional-page-link: http://developer.realwear.com/html-framework
+optional-page-title: HMT-1 & HTML
 ---
 
 ## Import WearML-Engine

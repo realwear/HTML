@@ -1,6 +1,5 @@
 ---
-title: HTML
-description: Release Notes
+title: Release Notes
 optional-page-link: http://developer.realwear.com/html-framework
 optional-page-title: HMT-1 & HTML
 ---

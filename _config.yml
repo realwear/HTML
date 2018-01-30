@@ -1,6 +1,7 @@
-title: HTML
-
 remote_theme: "realwear/GitHubPagesTheme@product"
+
+title: HTML
 
 plugins:
   - jekyll-remote-theme
+  

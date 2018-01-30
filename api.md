@@ -1,6 +1,5 @@
 ---
-title: HTML
-description: API
+title: API
 optional-page-link: http://developer.realwear.com/html-framework
 optional-page-title: HMT-1 & HTML
 ---

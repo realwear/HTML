@@ -59,7 +59,7 @@ link: "#download"
 
 WearML Overlays are the hints provided by WearHF to help the user with navigating the current screen. WearML overlay's have many attributes and options to choose from in order to provided helpful hints to the user. There are many features contained in the wearML overlays and the API can be found below for reference. 
 
-![Image](https://github.com/realwear/HTML/blob/gh-pages/images/image020.png?raw=true)
+![Image](images/image020.png)
 
 In order to customise the wearML overlay first create a CSS style and add custom css attributes using "--" and then appended the WearML Style attribute you wish to use.
 

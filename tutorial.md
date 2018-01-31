@@ -81,4 +81,4 @@ We have now speech enabled this input field with a custom command and change the
 </body>
 </html>
 ```
-![alt text](https://github.com/realwear/HTML/blob/gh-pages/images/example_2.png?raw=true)
+![alt text](images/example_2.png)

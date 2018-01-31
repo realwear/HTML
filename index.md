@@ -30,7 +30,7 @@ Download link above contains:
 
 * wearML-engine.js : This is the javascript file that should be included into a web page.
 
-![Example](https://github.com/realwear/HTML/blob/gh-pages/images/example_1.png?raw=true)
+![Example](images/example_1.png)
 
 ## [API](https://realwear.github.io/HTML/api)
 

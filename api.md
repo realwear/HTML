@@ -1,7 +1,7 @@
 ---
 title: API
 optional-page-link: http://developer.realwear.com/html-framework
-optional-page-title: HMT-1 & HTML
+optional-page-title: HMT-1 and HTML
 ---
 
 ## Import WearML-Engine
@@ -9,7 +9,7 @@ optional-page-title: HMT-1 & HTML
 The latest version of [wearML_engine.js](https://github.com/realwear/HTML/blob/master/js/wearml_engine-min.js). After downloading include the javascript file to your web page. The script will only execute on android based devices with a screen size of 480x854.
 
 
-## Adding a Speech Command ##
+## Adding a speech command ##
 
 Once you have added the javascript file to your web page you can start adding speech commands to your HTML elements. Adding data-wml-speech-command="" to your element along with the speech command you want to register will allow the wearML engine to detect which element you would like to speech enable.
 
@@ -19,7 +19,7 @@ Once you have added the javascript file to your web page you can start adding sp
 
 ```
 
-## Receiving a Speech Command ##
+## Receiving a speech command ##
 
 
 There are two ways a developer can receive a call back for a speech command. 
@@ -40,7 +40,7 @@ wearML.voiceCommandsCallBack = function(command){
 
 This function will be called everytime a speech command is spoken and the variable will contain said command.
 
-## Updating Voice Commands ##
+## Updating voice commands ##
 
 In order to update voice commands the wearML engine will use a MutationObserver to detect the adding and removing of html dom elements. If you are finding that speech-commands and overlay's are not correctly updating when changing your html content you can call the public method: 
 
@@ -49,13 +49,7 @@ wearML.updateCommands()
 ```
 This will force the WearMLEngine to reload grammer and overlays.
 
----
-title: HTML
-description: A javascript plugin which speech enables web pages 
-link: "#download"
----
-
-## WearML Overlays
+## WearML overlays
 
 WearML Overlays are the hints provided by WearHF to help the user with navigating the current screen. WearML overlay's have many attributes and options to choose from in order to provided helpful hints to the user. There are many features contained in the wearML overlays and the API can be found below for reference. 
 
@@ -81,9 +75,7 @@ Add the style to your dom element:
                            class="form-control" type="text" placeholder="Username"/>
 ```
 
-
-
-## DOM Attribute
+## DOM attribute
 
 Attribute | DataType | Description
 --- | --- | ---
@@ -91,7 +83,7 @@ data-wml-speech-command  | String  | text/content_description/no/xxxx	Optional: 
 data-wml-style  | String  |	Optional: References to a CSS style using the classname.
 
 
-## CSS Attribute
+## CSS attribute
 
 Attribute | DataType | Description
 --- | --- | ---

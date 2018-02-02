@@ -12,7 +12,7 @@ All of the WearML tags will be skipped by regular browsers, but read in by the H
 
 ## Tutorial
 
-## Release Notes
+## Release notes
 
 ## API
 

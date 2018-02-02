@@ -1,11 +1,10 @@
 ---
 title: Tutorial
 optional-page-link: http://developer.realwear.com/html-framework
-optional-page-title: HMT-1 & HTML
+optional-page-title: HMT-1 and HTML
 ---
 
-
-## Import Javascript 
+## Import Javascript
 First start by included the javascript file which can be downloaded from [wearML_engine.js](https://github.com/realwear/HTML/blob/master/js/wearml_engine-min.js).
 
 ```html
@@ -18,7 +17,7 @@ First start by included the javascript file which can be downloaded from [wearML
 </html>
 ```
 
-## Create Input Field
+## Create input field
 
 ```html
 <form >

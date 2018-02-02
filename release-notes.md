@@ -1,7 +1,7 @@
 ---
-title: Release Notes
+title: Release notes
 optional-page-link: http://developer.realwear.com/html-framework
-optional-page-title: HMT-1 & HTML
+optional-page-title: HMT-1 and HTML
 ---
 
 ## 0.9.3

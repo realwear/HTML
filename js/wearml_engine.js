@@ -152,7 +152,7 @@ this.getAllElementsWithAttribute = function(attribute)
 
 
         if(this.currentElement.id === ""){
-            this.currentElement.id = guid();
+            this.currentElement.id = this.guid();
         }
 
         this.position = this.getPosition(this.currentElement);

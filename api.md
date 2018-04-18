@@ -45,7 +45,7 @@ This function will be called everytime a speech command is spoken and the variab
 In order to update voice commands the wearML engine will use a MutationObserver to detect the adding and removing of html dom elements. If you are finding that speech-commands and overlay's are not correctly updating when changing your html content you can call the public method: 
 
 ```javascript
-wearML.updateCommands()
+wearML.getCommands()
 ```
 This will force the WearMLEngine to reload grammer and overlays.
 

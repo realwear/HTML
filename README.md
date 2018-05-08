@@ -1,7 +1,7 @@
 
 ## Introduction
 
-This supported framework is part of a public BETA.  
+This supported framework is part of a public BETA.
 
 HMT-1 is fundamentally an Android 6.0 device. It runs standard Android applications and web pages.
 

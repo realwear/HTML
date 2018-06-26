@@ -26,8 +26,8 @@
 /*----------------------- SOURCE MODULE INFORMATION -------------------------+
  |
  | Source Name:  WearML Engine
- | Version: v0.9.3
- | Date: December 2017
+ | Version: v0.9.4
+ | Date: June 2018
  | Author: Luke Hopkins
  |
  +---------------------------------------------------------------------------*/
@@ -107,7 +107,7 @@ this.getCommands = function() {
        return;
    }
 
-   //console.log("This is a HMT Device");
+   console.log("This is a HMT Device");
    wearML.observer.disconnect();
    this.elements = wearML.getAllElementsWithAttribute('*');
    wearML.createOverrideDom();
@@ -123,10 +123,6 @@ this.ASRPolling;
 **/
 this.getAllElementsWithAttribute = function(attribute)
 {
-  //Clear up buttons
-  for(var i = 0; i < wearML.wearHFButtons.length; i++){
-        document.body.removeChild(wearML.wearHFButtons[i]);
-  }
   wearML.wearHFButtons = [];
   this.allElements = document.body.getElementsByTagName(attribute);
 
@@ -137,9 +133,9 @@ this.getAllElementsWithAttribute = function(attribute)
 
     if (this.currentElement.getAttribute('data-wml-style') !== null || this.currentElement.getAttribute('data-wml-speech-command') !== null || this.currentElement.tagName != "DIV")
     {
-        if(this.currentElement.tagName == "SCRIPT")
-            return;
-        //console.log(allElements[i].tagName);
+        if(this.currentElement.tagName != "SCRIPT"){
+
+        console.log(this.allElements[i].tagName);
         this.styleId = this.currentElement.getAttribute('data-wml-style');
         this.command = this.currentElement.text;
 
@@ -167,6 +163,7 @@ this.getAllElementsWithAttribute = function(attribute)
           this.currentElement.addEventListener("click",  this.voiceCommandsCallBack.bind(this.currentElement, this.command));// Create a text node
 
          this.createButton(this.element, this.currentElement);
+        }
         }
     }
   }
@@ -234,8 +231,8 @@ this.createButton = function(element, node){
     this.t = document.createTextNode(element.tag);       // Create a text node
     this.btn.style.fontSize = "0.01px";
     this.btn.appendChild(this.t);                                // Append the text to <button>
-    this.btn.style.top = node.getBoundingClientRect().top;
-    this.btn.style.left = node.getBoundingClientRect().left;
+    this.btn.style.top = node.getBoundingClientRect().top + "px";
+    this.btn.style.left = node.getBoundingClientRect().left + "px";
     this.btn.onclick = function(element){
         for (var i = 0, n = wearML.wearMLElements.length; i < n; i++)
         {

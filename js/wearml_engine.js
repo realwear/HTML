@@ -253,8 +253,10 @@ var wearML = new function(){
 		this.t = document.createTextNode(element.tag); // Create a text node
 		this.btn.style.fontSize = "0.01px";
 		this.btn.appendChild(this.t); // Append the text to <button>
-		this.btn.style.top = node.getBoundingClientRect().top + "px";
-		this.btn.style.left = node.getBoundingClientRect().left + "px";
+		//this.btn.style.top = node.getBoundingClientRect().top + "px";
+		//this.btn.style.left = node.getBoundingClientRect().left + "px";
+		this.btn.style.top = "0px";
+        this.btn.style.left = "0px";
 		this.btn.onclick = function(element) {
 			for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
 				// [HISOL CHANGE] after START ================================================
@@ -277,7 +279,7 @@ var wearML = new function(){
 
 					} else {
 						console.log(wearML.wearMLElements[i].tag + ' click');
-						this.event = new Event('click');
+						this.event = new MouseEvent('click', {view:window, bubbles: true, cancelable:true});
 						this.ele.dispatchEvent(this.event);
 					}
 

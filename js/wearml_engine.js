@@ -75,6 +75,8 @@ var wearML = new function(){
 	this.wearMLElements = [];
 	this.wearHFButtons = [];
 
+	this.commandSet;
+
 	//CONST for CSS styles'
 	this.root = "--root";
 	this.text_field = "--text_field";
@@ -125,6 +127,12 @@ var wearML = new function(){
 		// createRootDom();
 	};
 
+	this.setCommandSet = function(cmdset) {
+        console.log('Changing commandSet from \'' + this.commandSet + '\' to \'' + cmdset + '\'.');
+	    this.commandSet = cmdset;
+	    this.pollCommands();
+	};
+
 	this.ASRPolling;
 
 	/**
@@ -148,9 +156,12 @@ var wearML = new function(){
 				// [HISOL CHANGE] after END ===================================================
 
 				if (this.currentElement.tagName != "SCRIPT") {
+
 					this.styleId = this.currentElement.getAttribute('data-wml-style');
-					this.command = this.currentElement.text;
+					this.elementCommandSet = this.currentElement.getAttribute('data-wml-commandset');
 					this.speech_command = this.currentElement.getAttribute('data-wml-speech-command');
+					this.command = this.currentElement.text;
+
 
 					if (this.speech_command == undefined || this.speech_command == " " || this.speech_command == "") {
 						// NOTHING
@@ -160,6 +171,11 @@ var wearML = new function(){
 						if (this.currentElement.id === "") {
 							this.currentElement.id = this.guid();
 						}
+
+                        console.log('this=' + this.elementCommandSet + ' wml=' + wearML.commandSet);
+                        //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
+						if(wearML.commandSet == undefined || wearML.commandSet == null || this.elementCommandSet == wearML.commandSet){
+						console.log("adding " +this.command);
 
 						this.position = this.getPosition(this.currentElement);
 
@@ -183,6 +199,7 @@ var wearML = new function(){
 						// [HISOL CHANGE] after END ===================================================
 
 						this.createButton(this.element, this.currentElement);
+						}
 					}
 				}
 			}
@@ -253,10 +270,10 @@ var wearML = new function(){
 		this.t = document.createTextNode(element.tag); // Create a text node
 		this.btn.style.fontSize = "0.01px";
 		this.btn.appendChild(this.t); // Append the text to <button>
-		//this.btn.style.top = node.getBoundingClientRect().top + "px";
-		//this.btn.style.left = node.getBoundingClientRect().left + "px";
-		this.btn.style.top = "0px";
-        this.btn.style.left = "0px";
+		this.btn.style.top = node.getBoundingClientRect().top + "px";
+		this.btn.style.left = node.getBoundingClientRect().left + "px";
+		//this.btn.style.top = "0px";
+        //this.btn.style.left = "0px";
 		this.btn.onclick = function(element) {
 			for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
 				// [HISOL CHANGE] after START ================================================

@@ -244,7 +244,7 @@ var wearML = new function(){
 			this.ASRPolling = null;
 		}
 
-		wearML.ASRPolling = setTimeout(wearML.getCommands, 500);
+		wearML.ASRPolling = setTimeout(wearML.getCommands, 250);
 	};
 
 	/**

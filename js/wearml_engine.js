@@ -34,8 +34,7 @@ var wearML = new function(){
 	this.voiceCommandsCallBack;
 
 	this.config = {
-		// attributes : false, // [HISOL CHANGE] before
-		attributes : true, // [HISOL CHANGE] after
+		attributes : true,
 		attributeFilter: ["class", "style"],
 		childList : true,
 		subtree : true,
@@ -45,31 +44,16 @@ var wearML = new function(){
 	// Observer used for detecting when dom elements have been removed or added.
 	this.observer = new MutationObserver(function(mutations) {
 
-// [HISOL CHANGE] before START ================================================
-//		mutations.forEach(function(mutation) {
-//			this.removedNodes = Array.from(mutation.removedNodes);
-//			this.addedNodes = Array.from(mutation.addedNodes);
-//			// console.log(mutation.type);
-//			// Content has changed
-//
-//			if (this.removedNodes.length > 0 || this.addedNodes.length > 0) {
-//				wearML.pollCommands();
-//			}
-//		});
-// [HISOL CHANGE] before END ==================================================
-
-// [HISOL CHANGE] after START ================================================
-		console.log("element change");
-
-		// 要素が変更された時に、WMLで追加されたbutton要素を一括削除する。
-		$('button[id$="WML_NODE"]').remove();
+		console.log("DOM Mutation detected, re-acquiring WearML commands.");
+        
+        
+        
 		wearML.pollCommands();
 
-// [HISOL CHANGE] after END ===================================================
 	});
 
 	window.addEventListener("load", function() {
-		wearML.getCommands();
+		wearML.pollCommands();
 	}, false);
 
 	this.wearMLElements = [];
@@ -115,10 +99,16 @@ var wearML = new function(){
 	this.getCommands = function() {
 		// Checking to see if we are a HMT
 		if (!navigator.userAgent.match(/Android/i) && screen.width > 480 && screen.height > 854) {
+            console.log("This is not an HMT device, WearML commands will not be registered.");
 			return;
 		}
 
-		console.log("This is a HMT Device");
+        wmlNodes = $('button[id$="WML_NODE"]');
+        
+        if(wmlNodes != null){
+            wmlNodes.remove();
+        }
+		
 		wearML.observer.disconnect();
 		this.elements = wearML.getAllElementsWithAttribute('*');
 		wearML.createOverrideDom();
@@ -132,6 +122,27 @@ var wearML = new function(){
 	    this.commandSet = cmdset;
 	    this.pollCommands();
 	};
+
+	this.automaticCommandParsing = true;
+
+	this.setAutomaticCommandParsing = function(bool){
+
+	    console.log("Setting automatic command parsing to " + bool);
+	    this.automaticCommandParsing = bool;
+
+        this.pollCommands();
+	}
+
+	this.isElementParsable = function(el){
+        
+        
+        if(this.automaticCommandParsing){
+            return el.getAttribute('data-wml-style') !== null || el.getAttribute('data-wml-speech-command') !== null || el.tagName != "DIV";
+        }
+        else{
+            return el.getAttribute('data-wml-style') !== null || el.getAttribute('data-wml-speech-command') !== null;
+        }
+	}
 
 	this.ASRPolling;
 
@@ -147,69 +158,80 @@ var wearML = new function(){
 		for (var i = 0, n = this.allElements.length; i < n; i++) {
 			// Check element to see if it has atleast one of our tags
 			this.currentElement = this.allElements[i];
+            
+            try{
+                if (this.isElementParsable(this.currentElement)) {
+                    
+                    if($(this.currentElement) == null) {
+                        continue;
+                    }
+                    
+                    if ($(this.currentElement).is(':hidden')) {
+                        continue;
+                    }
+                    console.log("Parsing element");
 
-			if (this.currentElement.getAttribute('data-wml-style') !== null || this.currentElement.getAttribute('data-wml-speech-command') !== null || this.currentElement.tagName != "DIV") {
-				// [HISOL CHANGE] after START ================================================
-				if ($(this.currentElement).is(':hidden')) {
-					continue;
-				}
-				// [HISOL CHANGE] after END ===================================================
+                    if (this.currentElement.tagName != "SCRIPT") {
 
-				if (this.currentElement.tagName != "SCRIPT") {
-
-					this.styleId = this.currentElement.getAttribute('data-wml-style');
-					this.elementCommandSet = this.currentElement.getAttribute('data-wml-commandset');
-					this.speech_command = this.currentElement.getAttribute('data-wml-speech-command');
-					this.command = this.currentElement.text;
+                        this.styleId = this.currentElement.getAttribute('data-wml-style');
+                        this.elementCommandSet = this.currentElement.getAttribute('data-wml-commandset');
+                        this.speech_command = this.currentElement.getAttribute('data-wml-speech-command');
+                        this.command = this.currentElement.text;
 
 
-					if (this.speech_command == undefined || this.speech_command == " " || this.speech_command == "") {
-						// NOTHING
-					} else {
-						this.command = this.speech_command;
+                        if (this.speech_command == undefined || this.speech_command == " " || this.speech_command == "") {
+                            // NOTHING
+                        } else {
+                            this.command = this.speech_command;
 
-						if (this.currentElement.id === "") {
-							this.currentElement.id = this.guid();
-						}
+                            if (this.currentElement.id === "") {
+                                this.currentElement.id = this.guid();
+                            }
 
-                        console.log('this=' + this.elementCommandSet + ' wml=' + wearML.commandSet);
-                        //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
-						if(wearML.commandSet == undefined || wearML.commandSet == null || this.elementCommandSet == wearML.commandSet){
-						console.log("adding " +this.command);
+                            console.log('this=' + this.elementCommandSet + ' wml=' + wearML.commandSet);
+                            //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
+                            if(wearML.commandSet == undefined || wearML.commandSet == null || this.elementCommandSet == wearML.commandSet){
+                            console.log("adding " +this.command);
 
-						this.position = this.getPosition(this.currentElement);
+                            this.position = this.getPosition(this.currentElement);
 
-						this.element = {
-							tag : this.command,
-							id : this.currentElement.id,
-							x : this.position.x,
-							y : this.position.y,
-							styleId : this.styleId
-						};
+                            this.element = {
+                                tag : this.command,
+                                id : this.currentElement.id,
+                                x : this.position.x,
+                                y : this.position.y,
+                                styleId : this.styleId
+                            };
 
-						// Element exists with attribute. Add to array.
-						wearML.wearMLElements.push(this.element);
-						
-						// [HISOL CHANGE] after START ================================================
-						//this.currentElement.addEventListener("click", this.onReceivedCommand.bind( this.currentElement, this.command));// Create a text node
-						//
-						//if (this.voiceCommandsCallBack != undefined){
-						//	this.currentElement.addEventListener("click", this.voiceCommandsCallBack.bind(this.currentElement, this.command));// Create a text node
-						//}
-						// [HISOL CHANGE] after END ===================================================
+                            // Element exists with attribute. Add to array.
+                            wearML.wearMLElements.push(this.element);
+                            
+                            // [HISOL CHANGE] after START ================================================
+                            //this.currentElement.addEventListener("click", this.onReceivedCommand.bind( this.currentElement, this.command));// Create a text node
+                            //
+                            //if (this.voiceCommandsCallBack != undefined){
+                            //	this.currentElement.addEventListener("click", this.voiceCommandsCallBack.bind(this.currentElement, this.command));// Create a text node
+                            //}
+                            // [HISOL CHANGE] after END ===================================================
 
-						this.createButton(this.element, this.currentElement);
-						}
-					}
-				}
-			}
+                            this.createButton(this.element, this.currentElement);
+                            }
+                        }
+                    }
+                }
+            }
+            catch(error){
+                console.log("An error has occurred while parsing an HTML element and a WearML element will not be registered");
+                console.error(error);
+            }
 		}
+        
 		return wearML.wearMLElements;
 	};
 
 
 	this.onReceivedCommand = function(command) {
-		wearML.pollCommands();
+		
 	};
 
 	/**
@@ -276,11 +298,10 @@ var wearML = new function(){
         //this.btn.style.left = "0px";
 		this.btn.onclick = function(element) {
 			for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
-				// [HISOL CHANGE] after START ================================================
+				
 				if(typeof element.srcElement === "undefined" || typeof element.srcElement.textContent === "undefined"){
 					continue;
 				}
-				// [HISOL CHANGE] after START ================================================
 
 				if (element.srcElement.textContent === wearML.wearMLElements[i].tag) {
 					this.ele = document.getElementById(wearML.wearMLElements[i].id);
@@ -295,7 +316,6 @@ var wearML = new function(){
 						this.ele.dispatchEvent(this.event);
 
 					} else {
-						console.log(wearML.wearMLElements[i].tag + ' click');
 						this.event = new MouseEvent('click', {view:window, bubbles: true, cancelable:true});
 						this.ele.dispatchEvent(this.event);
 					}

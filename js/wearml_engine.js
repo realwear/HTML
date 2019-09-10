@@ -46,6 +46,11 @@ var wearML = new function(){
 
 		console.log("DOM Mutation detected, re-acquiring WearML commands.");
         
+        wmlNodes = $('button[id$="WML_NODE"]');
+        
+        if(wmlNodes != null){
+            wmlNodes.remove();
+        }
         
         
 		wearML.pollCommands();
@@ -57,7 +62,7 @@ var wearML = new function(){
 	}, false);
 
 	this.wearMLElements = [];
-	this.wearHFButtons = [];
+	this.callbackElements = [];
 
 	this.commandSet;
 
@@ -103,11 +108,7 @@ var wearML = new function(){
 			return;
 		}
 
-        wmlNodes = $('button[id$="WML_NODE"]');
         
-        if(wmlNodes != null){
-            wmlNodes.remove();
-        }
 		
 		wearML.observer.disconnect();
 		this.elements = wearML.getAllElementsWithAttribute('*');
@@ -122,6 +123,55 @@ var wearML = new function(){
 	    this.commandSet = cmdset;
 	    this.pollCommands();
 	};
+    
+    this.initCallbackBtn = function(command){
+        var btn = document.createElement("BUTTON"); 
+        
+		btn.id = command + 'WML_CB_NODE';
+        btn.style.top = 0;
+        btn.style.left = 0;
+		btn.style.opacity = "0.01";
+		btn.style.position = "fixed";
+        
+        btn.setAttribute('data-wml-speech-command',command);
+        
+        //t = document.createTextNode(command); 
+		//btn.appendChild(t); 
+        
+        return btn;
+    };
+    
+    this.registerCallbackBtn = function(btn){
+        
+        var theFirstChild = document.body.firstChild;
+		document.body.insertBefore(btn, theFirstChild);
+        wearML.pollCommands();
+    };
+    
+    this.addCallbackCommand = function(command,cmdset,callbackFunc) {
+        
+        var btn = wearML.initCallbackBtn(command);
+        btn.onclick = callbackFunc;
+        
+        if(cmdset){
+            btn.setAttribute('data-wml-commandset',cmdset);
+        }
+        
+        wearML.registerCallbackBtn(btn);
+    };
+    
+    
+    this.removeCallbackCommand = function(command) {
+        
+        var btn = document.getElementById(command + 'WML_CB_NODE');
+        
+        btn.remove();
+        
+        wearML.pollCommands();
+        
+        
+    }
+    
 
 	this.automaticCommandParsing = true;
 
@@ -151,13 +201,14 @@ var wearML = new function(){
 	 */
 	this.getAllElementsWithAttribute = function(attribute) {
 		wearML.wearMLElements = [];
-		wearML.wearHFButtons = [];
 
 		this.allElements = document.body.getElementsByTagName(attribute);
 
 		for (var i = 0, n = this.allElements.length; i < n; i++) {
 			// Check element to see if it has atleast one of our tags
 			this.currentElement = this.allElements[i];
+            
+            //var = this.currentElement.getAttribute('data-wml-speech-command');
             
             try{
                 if (this.isElementParsable(this.currentElement)) {
@@ -169,15 +220,19 @@ var wearML = new function(){
                     if ($(this.currentElement).is(':hidden')) {
                         continue;
                     }
-                    console.log("Parsing element");
+                    
+                   
 
                     if (this.currentElement.tagName != "SCRIPT") {
+                        
+                        
 
                         this.styleId = this.currentElement.getAttribute('data-wml-style');
                         this.elementCommandSet = this.currentElement.getAttribute('data-wml-commandset');
                         this.speech_command = this.currentElement.getAttribute('data-wml-speech-command');
                         this.command = this.currentElement.text;
 
+                        
 
                         if (this.speech_command == undefined || this.speech_command == " " || this.speech_command == "") {
                             // NOTHING
@@ -188,10 +243,12 @@ var wearML = new function(){
                                 this.currentElement.id = this.guid();
                             }
 
-                            console.log('this=' + this.elementCommandSet + ' wml=' + wearML.commandSet);
+                            console.log(this.speech_command + " / " + this.elementCommandSet);
+                            
                             //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
                             if(wearML.commandSet == undefined || wearML.commandSet == null || this.elementCommandSet == wearML.commandSet){
-                            console.log("adding " +this.command);
+                            
+                            console.log(this.speech_command + ' passed');
 
                             this.position = this.getPosition(this.currentElement);
 
@@ -206,14 +263,6 @@ var wearML = new function(){
                             // Element exists with attribute. Add to array.
                             wearML.wearMLElements.push(this.element);
                             
-                            // [HISOL CHANGE] after START ================================================
-                            //this.currentElement.addEventListener("click", this.onReceivedCommand.bind( this.currentElement, this.command));// Create a text node
-                            //
-                            //if (this.voiceCommandsCallBack != undefined){
-                            //	this.currentElement.addEventListener("click", this.voiceCommandsCallBack.bind(this.currentElement, this.command));// Create a text node
-                            //}
-                            // [HISOL CHANGE] after END ===================================================
-
                             this.createButton(this.element, this.currentElement);
                             }
                         }
@@ -275,6 +324,7 @@ var wearML = new function(){
 		document.body.insertBefore(this.btn, this.theFirstChild);
 	};
 
+    
 
 	/**
 	 * Create hidden button for WearHF to interact with
@@ -294,8 +344,7 @@ var wearML = new function(){
 		this.btn.appendChild(this.t); // Append the text to <button>
 		this.btn.style.top = node.getBoundingClientRect().top + "px";
 		this.btn.style.left = node.getBoundingClientRect().left + "px";
-		//this.btn.style.top = "0px";
-        //this.btn.style.left = "0px";
+
 		this.btn.onclick = function(element) {
 			for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
 				
@@ -333,7 +382,6 @@ var wearML = new function(){
 		var theFirstChild = document.body.firstChild;
 		document.body.appendChild(this.btn);
 
-		wearML.wearHFButtons.push(this.btn);
 	};
 
 	/**
@@ -344,46 +392,41 @@ var wearML = new function(){
 		this.xml = "<WearML><Package>com.android.webview</Package><Language>en_GB</Language><UniqueIdentifier id=\"web_app\"/> ";
 
 		document.title = "hf_no_number";
+        
+        parseElementIntoXml = function(el) {
+            el.command = el.tag;
+			el.styleId = el.styleId
+			
+            var resultXml = "";
+            
+			resultXml += "<View ";
+			resultXml += "id=\"" + el.id + "\" ";
+
+			if (el.command == undefined) {
+				resultXml += "speech_command=\"" + "no" + "\" ";
+			}
+            else{
+				resultXml += "speech_command=\"" + el.command + "\" ";
+			}
+
+			el.style = wearML.getStyle(el.styleId);
+
+			if (el.style != undefined) {
+				resultXml += wearML.wearMLParser(el.style,
+						el);
+			}
+
+			resultXml += "/> ";
+            
+            return resultXml;
+        }
 
 		for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
-			this.command = wearML.wearMLElements[i].tag;
-			this.styleId = wearML.wearMLElements[i].styleId
-			// Dont register a command if it can.
-			this.xml += "<View ";
-			this.xml += "id=\"" + wearML.wearMLElements[i].id + "\" ";
-
-			if (this.command != undefined) {
-				this.xml += "speech_command=\"" + "no" + "\" ";
-			}
-
-			this.style = this.getStyle(this.styleId)
-
-			if (this.style != undefined) {
-				this.xml += this.wearMLParser(this.style,
-						wearML.wearMLElements[i]);
-			}
-
-			this.xml += "/> ";
-
-			// Create node for new button
-			this.xml += "<View ";
-			this.xml += "id=\"" + wearML.wearMLElements[i].tag + "WML_NODE\"";
-
-			this.style = wearML.getStyle(this.styleId)
-			if (this.style != undefined) {
-				this.xml += this.wearMLParser(this.style,
-						wearML.wearMLElements[i]);
-			}
-			// DONT Draw overlay for hidden buttons
-			if (this.command != undefined) {
-				this.xml += "speech_command=\"" + this.command + "\" ";
-			}
-
-			this.xml += "/> ";
+			this.xml += parseElementIntoXml(wearML.wearMLElements[i]);
 		}
 
 		this.xml += "</WearML>";
-		//return this.xml;
+
 		return this.utf8_to_b64(this.xml);
 	};
 

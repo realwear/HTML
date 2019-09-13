@@ -123,6 +123,7 @@ var wearML = new function(){
 	    this.commandSet = cmdset;
 	    this.pollCommands();
 	};
+
     
     this.initCallbackBtn = function(command){
         var btn = document.createElement("BUTTON"); 
@@ -150,11 +151,16 @@ var wearML = new function(){
     
     this.addCallbackCommand = function(command,cmdset,callbackFunc) {
         
-        var btn = wearML.initCallbackBtn(command);
+        var btn = document.getElementById(command + 'WML_CB_NODE');
+        
+        if(btn == null || btn == undefined){
+            btn = wearML.initCallbackBtn(command);
+        }
+
         btn.onclick = callbackFunc;
         
         if(cmdset){
-            btn.setAttribute('data-wml-commandset',cmdset);
+            btn.setAttribute('data-wml-commandsets',cmdset);
         }
         
         wearML.registerCallbackBtn(btn);
@@ -165,7 +171,9 @@ var wearML = new function(){
         
         var btn = document.getElementById(command + 'WML_CB_NODE');
         
-        btn.remove();
+        if(btn != null && btn != undefined){
+            btn.remove();
+        }
         
         wearML.pollCommands();
         
@@ -195,6 +203,13 @@ var wearML = new function(){
 	}
 
 	this.ASRPolling;
+    
+    this.isValidCommandSet = function(commandSets){
+        
+      var cmdSetArr = commandSets.split('|');
+      
+      return cmdSetArr.includes(wearML.commandSet);
+    };
 
 	/**
 	 * Get all elements based on attribute passed
@@ -213,25 +228,25 @@ var wearML = new function(){
             try{
                 if (this.isElementParsable(this.currentElement)) {
                     
+                    
+                    
                     if($(this.currentElement) == null) {
                         continue;
                     }
                     
-                    if ($(this.currentElement).is(':hidden')) {
-                        continue;
-                    }
+                    //if ($(this.currentElement).is(':hidden')) {
+                    //    continue;
+                    //}
                     
+                    console.log('not null or hidden');
                    
 
                     if (this.currentElement.tagName != "SCRIPT") {
                         
-                        
-
                         this.styleId = this.currentElement.getAttribute('data-wml-style');
-                        this.elementCommandSet = this.currentElement.getAttribute('data-wml-commandset');
+                        this.elementCommandSets = this.currentElement.getAttribute('data-wml-commandsets');
                         this.speech_command = this.currentElement.getAttribute('data-wml-speech-command');
                         this.command = this.currentElement.text;
-
                         
 
                         if (this.speech_command == undefined || this.speech_command == " " || this.speech_command == "") {
@@ -243,10 +258,10 @@ var wearML = new function(){
                                 this.currentElement.id = this.guid();
                             }
 
-                            console.log(this.speech_command + " / " + this.elementCommandSet);
+                            console.log(this.speech_command + " / " + wearML.isValidCommandSet(this.elementCommandSets));
                             
                             //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
-                            if(wearML.commandSet == undefined || wearML.commandSet == null || this.elementCommandSet == wearML.commandSet){
+                            if(wearML.commandSet == undefined || wearML.commandSet == null || wearML.isValidCommandSet(this.elementCommandSets)){
                             
                             console.log(this.speech_command + ' passed');
 
@@ -293,7 +308,7 @@ var wearML = new function(){
 			this.ASRPolling = null;
 		}
 
-		wearML.ASRPolling = setTimeout(wearML.getCommands, 250);
+		wearML.ASRPolling = setTimeout(wearML.getCommands, 500);
 	};
 
 	/**
@@ -323,8 +338,6 @@ var wearML = new function(){
 		// document.body.appendChild(btn);
 		document.body.insertBefore(this.btn, this.theFirstChild);
 	};
-
-    
 
 	/**
 	 * Create hidden button for WearHF to interact with

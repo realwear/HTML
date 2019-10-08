@@ -3,7 +3,7 @@
 
 This supported framework is part of a public BETA.
 
-HMT-1 is fundamentally an Android 6.0 device. It runs standard Android applications and web pages.
+HMT-1 is fundamentally an Android 8.0 device. It runs standard Android applications and web pages.
 
 The general approach for speech enabling web pages relies on the use of JavaScript as a middle language, bridging the HMT-1 web browser and the underlying WearHF speech engine. Once the javascript file is included into the webpage WearML tags can be freely embedded into the webpage. These tags will provide hints to the speech engine, determining what should be speech enabled, and as importantly, what should not be speech enabled.
 
@@ -11,6 +11,7 @@ WearML gives the developer greater control over the user interface of a webpage 
 
 All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT.
 
+wearml_enginer-min.js created with uglify-js (npm install uglify-js && uglifyjs js/wearml_engine.js -o js/wearml_engine-min.js)
 
 ![Example](https://github.com/realwear/HTML/blob/gh-pages/images/example_1.png?raw=true)
 

@@ -48,11 +48,17 @@ var wearML = new function(){
 
         console.log("DOM Mutation detected, re-acquiring WearML commands.");
 
-        wmlNodes = $('button[id$="WML_NODE"]');
+        //wmlNodes = $('button[id$="WML_NODE"]');
 
-        if(wmlNodes != null){
-            wmlNodes.remove();
-        }
+        //if(wmlNodes != null){
+        //    wmlNodes.remove();
+        //}
+        
+        wmlNodes = document.querySelectorAll('button[id$="WML_NODE"]');
+        
+        wmlNodes.forEach((wmlNode) => {
+            wmlNode.parentNode.removeChild(wmlNode);
+        });
 
         wearML.pollCommands();
     });
@@ -159,6 +165,8 @@ var wearML = new function(){
         if(cmdset){
             btn.setAttribute('data-wml-commandsets',cmdset);
         }
+        
+        
 
         wearML.registerCallbackBtn(btn);
     };
@@ -206,6 +214,16 @@ var wearML = new function(){
         }
         return returnValue;
     };
+    
+    this.isElementHidden = function(el){
+        
+      return(
+              (el.type == 'hidden') ||
+              (el.hidden == true) ||
+              (el.display === 'none') 
+            );
+        
+    };
 
     /**
      * Get all elements based on attribute passed
@@ -223,16 +241,10 @@ var wearML = new function(){
 
             try{
                 if (this.isElementParsable(this.currentElement)) {
-
-                    if($(this.currentElement) == null) {
+                    
+                    if(wearML.isElementHidden(this.currentElement)){
                         continue;
-                    }
-
-                    //if ($(this.currentElement).is(':hidden')) {
-                    //    continue;
-                    //}
-
-                    console.log('not null or hidden');
+                    }     
 
                     if (this.currentElement.tagName != "SCRIPT") {
                         
@@ -249,8 +261,6 @@ var wearML = new function(){
                             if (this.currentElement.id === "") {
                                 this.currentElement.id = this.guid();
                             }
-
-                            console.log(this.speech_command + " / " + wearML.isValidCommandSet(this.elementCommandSets));
 
                             //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
                             if(wearML.commandSet == undefined || wearML.commandSet == null || wearML.isValidCommandSet(this.elementCommandSets)){

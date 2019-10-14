@@ -47,12 +47,6 @@ var wearML = new function(){
     this.observer = new MutationObserver(function(mutations) {
 
         console.log("DOM Mutation detected, re-acquiring WearML commands.");
-
-        //wmlNodes = $('button[id$="WML_NODE"]');
-
-        //if(wmlNodes != null){
-        //    wmlNodes.remove();
-        //}
         
         wmlNodes = document.querySelectorAll('button[id$="WML_NODE"]');
         
@@ -91,6 +85,7 @@ var wearML = new function(){
     this.global = "--global_commands";
     this.hide_help = "--hide_help";
     this.broadcast_results = "--broadcast_results";
+    this.include_help = "--include_help";
 
     this.root_text_field = "";
     this.root_overlay_show_number = "";
@@ -106,6 +101,7 @@ var wearML = new function(){
     this.root_overlay_offset = "";
     this.root_hf_scroll = "";
     this.root_hide_help = "";
+    this.root_include_help = "";
 
     this.getCommands = function() {
         // Checking to see if we are a HMT
@@ -224,6 +220,20 @@ var wearML = new function(){
             );
         
     };
+    
+    this.helpString = "";
+    
+    this.addHelpCommand = function(cmd){
+        
+        this.helpString = (this.helpString == "") ? 
+                          ('hf_show_help_commands:' + cmd) :
+                          (this.helpString + ',' + cmd);
+        
+    };
+    
+    this.clearHelpCommands = function(){
+        this.helpString = "";
+    }
 
     /**
      * Get all elements based on attribute passed
@@ -252,6 +262,7 @@ var wearML = new function(){
                         this.elementCommandSets = this.currentElement.getAttribute('data-wml-commandsets');
                         this.speech_command = this.currentElement.getAttribute('data-wml-speech-command');
                         this.command = this.currentElement.text;
+                        
 
                         if (this.speech_command == undefined || this.speech_command == " " || this.speech_command == "") {
                             // NOTHING
@@ -261,11 +272,11 @@ var wearML = new function(){
                             if (this.currentElement.id === "") {
                                 this.currentElement.id = this.guid();
                             }
+                            
 
                             //Add this element if global commandset is undefined (all commands valid) or if this element belongs to the active global commandset
                             if(wearML.commandSet == undefined || wearML.commandSet == null || wearML.isValidCommandSet(this.elementCommandSets)){
 
-                                console.log(this.speech_command + ' passed');
 
                                 this.position = this.getPosition(this.currentElement);
 
@@ -276,6 +287,8 @@ var wearML = new function(){
                                     y : this.position.y,
                                     styleId : this.styleId
                                 };
+                                
+                              
 
                                 // Element exists with attribute. Add to array.
                                 wearML.wearMLElements.push(this.element);
@@ -326,7 +339,8 @@ var wearML = new function(){
         this.btn = document.createElement("BUTTON"); // Create a <button>
         this.btn.id = "wearHF_root_button";
 
-        this.t = document.createTextNode("hf_wearml_override:" + this.generateXML()); // Create a text node
+
+        this.t = document.createTextNode(this.generateRootWearML()); // Create a text node
         this.btn.appendChild(this.t); // Append the text to <button>
         this.btn.style.top = 0;
         this.btn.style.left = 0;
@@ -399,8 +413,10 @@ var wearML = new function(){
      * Create xml for web page. XML is used for switching off overlays by
      * default and used for sending the overlay styles to WearHF
      */
-    this.generateXML = function() {
-        this.xml = "<WearML><Package>com.android.webview</Package><Language>en_GB</Language><UniqueIdentifier id=\"web_app\"/> ";
+    this.generateRootWearML = function() {
+        
+        
+        var xml = "<WearML><Package>com.android.webview</Package><Language>en_GB</Language><UniqueIdentifier id=\"web_app\"/> ";
 
         document.title = "hf_no_number";
 
@@ -433,12 +449,18 @@ var wearML = new function(){
         }
 
         for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
-            this.xml += parseElementIntoXml(wearML.wearMLElements[i]);
+            xml += parseElementIntoXml(wearML.wearMLElements[i]);
         }
 
-        this.xml += "</WearML>";
+        xml += "</WearML>";
+        
+        var encodedXML = this.utf8_to_b64(xml);
+        
+        var wmlString =   (this.helpString == "") ?
+                          ("hf_wearml_override:" + encodedXML):
+                          (this.helpString + "|hf_wearml_override:" + encodedXML); 
 
-        return this.utf8_to_b64(this.xml);
+        return wmlString;
     };
 
     /**
@@ -529,6 +551,7 @@ var wearML = new function(){
         var get_global = e != undefined ? e.getPropertyValue(this.global).trim() : "";
         var get_hide_help = e != undefined ? e.getPropertyValue(this.hide_help).trim() : "";
         var get_broadcast_results = e != undefined ? e.getPropertyValue(this.broadcast_results).trim() : "";
+        var get_include_help = e != undefined ? e.getPropertyValue(this.include_help).trim() : "";
 
            /*******************************************************************
              * Input type
@@ -549,6 +572,7 @@ var wearML = new function(){
                 this.root_overlay_offset = get_overlay_offset;
                 this.root_hf_scroll = get_hf_scroll;
                 this.root_hide_help = get_hide_help;
+                this.root_include_help = get_include_help;
             }
         }
 
@@ -703,6 +727,12 @@ var wearML = new function(){
                 attributes += "broadcast_results=\"no\" ";
             }
         }
+        
+        if(get_include_help != ""){
+            console.log('Adding help command \'' + element.command + '\'');
+            wearML.addHelpCommand(element.command);
+        }
+        
         return attributes;
     };
 }

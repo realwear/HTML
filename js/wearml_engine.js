@@ -130,17 +130,6 @@ var wearML = new function(){
         this.pollCommands();
     };
     
-    this.cbStyle = function(){
-        
-        var style = document.createElement("style");
-        
-        style.setAttribute(wearML.include_help, true);
-        style.setAttribute(wearML.overlay_show_number, false);
-        
-        document.head.appendChild(style);
-        
-        return style.sheet;
-    }
 
     this.initCallbackBtn = function(command){
         var btn = document.createElement("BUTTON"); 
@@ -148,6 +137,7 @@ var wearML = new function(){
         
 
         btn.id = command + 'WML_CB_NODE';
+
         btn.style.top = 0;
         btn.style.left = 0;
         btn.style.opacity = "0.01";
@@ -251,18 +241,18 @@ var wearML = new function(){
         
     };
     
-    this.helpString = "";
+    this.helpCommands = new Set();
+    
     
     this.addHelpCommand = function(cmd){
         
-        this.helpString = (this.helpString == "") ? 
-                          ('hf_show_help_commands:' + cmd) :
-                          (this.helpString + ',' + cmd);
+        wearML.helpCommands.add(cmd);
+        
         
     };
     
     this.clearHelpCommands = function(){
-        this.helpString = "";
+        wearML.helpCommands.clear();
     }
 
     /**
@@ -446,6 +436,18 @@ var wearML = new function(){
         var theFirstChild = document.body.firstChild;
         document.body.appendChild(this.btn);
     };
+    
+    this.listHelpCommands = function(){
+        
+        var listStr = '';
+        
+        wearML.helpCommands.forEach(function(value){
+            listStr += value + ',';
+        });
+        
+        return listStr.slice(0, -1) + '|'; //remove last comma and add pipe
+        
+    }
 
     /**
      * Create xml for web page. XML is used for switching off overlays by
@@ -475,17 +477,22 @@ var wearML = new function(){
             }
 
             if(isCallback){
-                //el.setAttribute("style", "--include_help: true, --overlay_show_number: false");
-                el.style = wearML.cbStyle.sheet;
+               
+               resultXml += "overlay_show_number=\"no\" "; 
+               wearML.addHelpCommand(el.command);
+               
+               
+               
             }
             else{
                 el.style = wearML.getStyle(el.styleId);
+                
+                if (el.style != undefined) {
+                    resultXml += wearML.wearMLParser(el.style, el);
+                }
             }
             
-            if (el.style != undefined) {
-                resultXml += wearML.wearMLParser(el.style,
-                        el);
-            }
+            
             
 
             resultXml += "/> ";
@@ -507,10 +514,11 @@ var wearML = new function(){
         
         var hideHelpString = wearML.shouldHideHelp ? "hf_hide_help|" : "";
         
-        
-        var wmlString =   (this.helpString == "") ?
-                          (hideHelpString + "hf_wearml_override:" + encodedXML):
-                          (this.helpString + "|" + hideHelpString + "hf_wearml_override:" + encodedXML); 
+        var helpCmdString = wearML.helpCommands.size == 0 ?
+                            "" :
+                            'hf_show_help_commands:' + wearML.listHelpCommands();
+                            
+        var wmlString =  (helpCmdString + hideHelpString + "hf_wearml_override:" + encodedXML); 
 
         return wmlString;
     };
@@ -528,11 +536,11 @@ var wearML = new function(){
      */
     this.getStyle = function(className) {
         for (var i = 0; i < document.styleSheets.length; i++) {
-            this.classes = document.styleSheets[i].rules || document.styleSheets[i].cssRules
-            if (this.classes != null){
-                for (var x = 0; x < this.classes.length; x++) {
-                    if (this.classes[x].selectorText == className) {
-                        return this.classes[x].style;
+            var classes = document.styleSheets[i].rules || document.styleSheets[i].cssRules
+            if (classes != null){
+                for (var x = 0; x < classes.length; x++) {
+                    if (classes[x].selectorText == className) {
+                        return classes[x].style;
                     }
                 }
             }
@@ -581,6 +589,7 @@ var wearML = new function(){
      */
     this.wearMLParser = function(e, element) {
         var attributes = "";
+        
 
         /**
          * If we cant find a value and we have a root value use this....

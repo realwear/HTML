@@ -481,8 +481,6 @@ var wearML = new function(){
                resultXml += "overlay_show_number=\"no\" "; 
                wearML.addHelpCommand(el.command);
                
-               
-               
             }
             else{
                 el.style = wearML.getStyle(el.styleId);
@@ -641,7 +639,7 @@ var wearML = new function(){
          * Input type
          **************************************************************************/
         if (get_text_field != "") {
-            attributes += "text_field=" + get_text_field + " ";
+            attributes += "text_field=\"" + get_text_field + "\" ";
         }
 
         /***************************************************************************

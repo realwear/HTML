@@ -102,6 +102,8 @@ var wearML = new function(){
     this.root_hf_scroll = "";
     this.root_hide_help = "";
     this.root_include_help = "";
+    
+    this.shouldHideHelp = null;
 
     this.getCommands = function() {
         // Checking to see if we are a HMT
@@ -111,6 +113,10 @@ var wearML = new function(){
         }
 
         wearML.observer.disconnect();
+        
+        wearML.clearHelpCommands();
+        this.shouldHideHelp = false; 
+        
         this.elements = wearML.getAllElementsWithAttribute('*');
         wearML.createOverrideDom();
         this.rootElement = document.documentElement;
@@ -123,9 +129,23 @@ var wearML = new function(){
         this.commandSet = cmdset;
         this.pollCommands();
     };
+    
+    this.cbStyle = function(){
+        
+        var style = document.createElement("style");
+        
+        style.setAttribute(wearML.include_help, true);
+        style.setAttribute(wearML.overlay_show_number, false);
+        
+        document.head.appendChild(style);
+        
+        return style.sheet;
+    }
 
     this.initCallbackBtn = function(command){
         var btn = document.createElement("BUTTON"); 
+        
+        
 
         btn.id = command + 'WML_CB_NODE';
         btn.style.top = 0;
@@ -150,9 +170,15 @@ var wearML = new function(){
     };
     
     this.addCallbackCommand = function(command,cmdset,callbackFunc) {
+        
+        
+        
         var btn = document.getElementById(command + 'WML_CB_NODE');
+        
+        
+        var isNew = (btn == null || btn == undefined);
 
-        if(btn == null || btn == undefined){
+        if(isNew){
             btn = wearML.initCallbackBtn(command);
         }
 
@@ -162,17 +188,21 @@ var wearML = new function(){
             btn.setAttribute('data-wml-commandsets',cmdset);
         }
         
+        //btn.style[this.include_help] = true;
+        //btn.style[this.overlay_show_number] = false;
         
-
-        wearML.registerCallbackBtn(btn);
+        if(isNew){
+            wearML.registerCallbackBtn(btn);
+        }
     };
 
     this.removeCallbackCommand = function(command) {
 
         var btn = document.getElementById(command + 'WML_CB_NODE');
+        
 
         if(btn != null && btn != undefined){
-            btn.remove();
+            btn.parentNode.removeChild(btn);
         }
 
         wearML.pollCommands();
@@ -290,10 +320,18 @@ var wearML = new function(){
                                 
                               
 
+                                
                                 // Element exists with attribute. Add to array.
-                                wearML.wearMLElements.push(this.element);
-
-                                this.createButton(this.element, this.currentElement);
+                                
+                                if(this.element.id.includes('WML_CB_NODE')){
+                                    wearML.callbackElements.push(this.element);
+                                }
+                                else{
+                                    wearML.wearMLElements.push(this.element);
+                                    this.createButton(this.element, this.currentElement);
+                                }
+                                
+                                //this.createButton(this.element, this.currentElement);
                             }
                         }
                     }
@@ -321,7 +359,7 @@ var wearML = new function(){
             this.ASRPolling = null;
         }
 
-        wearML.ASRPolling = setTimeout(wearML.getCommands, 500);
+        wearML.ASRPolling = setTimeout(wearML.getCommands, 300);
     };
 
     /**
@@ -420,7 +458,7 @@ var wearML = new function(){
 
         document.title = "hf_no_number";
 
-        parseElementIntoXml = function(el) {
+        parseElementIntoXml = function(el, isCallback) {
             el.command = el.tag;
             el.styleId = el.styleId
 
@@ -436,12 +474,19 @@ var wearML = new function(){
                 resultXml += "speech_command=\"" + el.command + "\" ";
             }
 
-            el.style = wearML.getStyle(el.styleId);
-
+            if(isCallback){
+                //el.setAttribute("style", "--include_help: true, --overlay_show_number: false");
+                el.style = wearML.cbStyle.sheet;
+            }
+            else{
+                el.style = wearML.getStyle(el.styleId);
+            }
+            
             if (el.style != undefined) {
                 resultXml += wearML.wearMLParser(el.style,
                         el);
             }
+            
 
             resultXml += "/> ";
 
@@ -449,16 +494,23 @@ var wearML = new function(){
         }
 
         for (var i = 0, n = wearML.wearMLElements.length; i < n; i++) {
-            xml += parseElementIntoXml(wearML.wearMLElements[i]);
+            xml += parseElementIntoXml(wearML.wearMLElements[i],false);
+        }
+        
+        for (var j = 0, k = wearML.callbackElements.length; j < k; j++){
+            xml += parseElementIntoXml(wearML.callbackElements[j], true);
         }
 
         xml += "</WearML>";
         
         var encodedXML = this.utf8_to_b64(xml);
         
+        var hideHelpString = wearML.shouldHideHelp ? "hf_hide_help|" : "";
+        
+        
         var wmlString =   (this.helpString == "") ?
-                          ("hf_wearml_override:" + encodedXML):
-                          (this.helpString + "|hf_wearml_override:" + encodedXML); 
+                          (hideHelpString + "hf_wearml_override:" + encodedXML):
+                          (this.helpString + "|" + hideHelpString + "hf_wearml_override:" + encodedXML); 
 
         return wmlString;
     };
@@ -702,8 +754,8 @@ var wearML = new function(){
               Hide Help
          */
         if (get_hide_help != "") {
-            attributes += "barcode=" + get_barcode + " ";
-
+            
+            wearML.shouldHideHelp = (get_hide_help == 'true') ? true : false;
         }
 
         /**

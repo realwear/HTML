@@ -1,4 +1,3 @@
-
 ## Introduction
 
 This supported framework is part of a public BETA.
@@ -11,15 +10,12 @@ WearML gives the developer greater control over the user interface of a webpage 
 
 All of the WearML tags will be skipped by regular browsers, but read in by the HMT-1 browser. In this way, production webpages (or HTML5 apps) can be built for all platforms including HMT.
 
-wearml_enginer-min.js created with uglify-js (npm install uglify-js && uglifyjs js/wearml_engine.js -o js/wearml_engine-min.js)
-
 ![Example](https://github.com/realwear/HTML/blob/gh-pages/images/example_1.png?raw=true)
 
 ## Example - Coming Soon
 
-## [API](https://realwear.github.io/HTML/api)
+## [API](https://realwear.com/knowledge-center/developer/environments/html-env/html-api/)
 
-## [Tutorial](https://realwear.github.io/HTML/tutorial)
+## [Tutorial](https://realwear.com/knowledge-center/developer/environments/html-env/html-tutorial/)
 
 ## [Release Notes](https://realwear.github.io/HTML/release-notes)
-

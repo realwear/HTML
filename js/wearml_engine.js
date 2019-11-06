@@ -25,9 +25,9 @@
 /*----------------------- SOURCE MODULE INFORMATION -------------------------+
  |
  | Source Name:  WearML Engine
- | Version: v0.9.5
- | Date: June 2018
- | Author: Luke Hopkins
+ | Version: v1.0.1
+ | Date: November 2019
+ | Author: Luke Hopkins & Taylor Meads
  |
  +---------------------------------------------------------------------------*/
 
@@ -145,9 +145,6 @@ var wearML = new function(){
 
         btn.setAttribute('data-wml-speech-command',command);
 
-        //t = document.createTextNode(command); 
-        //btn.appendChild(t); 
-
         return btn;
     };
 
@@ -177,9 +174,6 @@ var wearML = new function(){
         if(cmdset){
             btn.setAttribute('data-wml-commandsets',cmdset);
         }
-        
-        //btn.style[this.include_help] = true;
-        //btn.style[this.overlay_show_number] = false;
         
         if(isNew){
             wearML.registerCallbackBtn(btn);
@@ -267,7 +261,6 @@ var wearML = new function(){
             // Check element to see if it has atleast one of our tags
             this.currentElement = this.allElements[i];
 
-            //var = this.currentElement.getAttribute('data-wml-speech-command');
 
             try{
                 if (this.isElementParsable(this.currentElement)) {
@@ -321,7 +314,6 @@ var wearML = new function(){
                                     this.createButton(this.element, this.currentElement);
                                 }
                                 
-                                //this.createButton(this.element, this.currentElement);
                             }
                         }
                     }
@@ -374,9 +366,9 @@ var wearML = new function(){
         this.btn.style.left = 0;
         this.btn.style.opacity = "0.01";
         this.btn.style.position = "fixed";
+        
         // Get a reference to the first child
         this.theFirstChild = document.body.firstChild;
-        // document.body.appendChild(btn);
         document.body.insertBefore(this.btn, this.theFirstChild);
     };
 

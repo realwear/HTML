@@ -526,11 +526,14 @@ var wearML = new function(){
      */
     this.getStyle = function(className) {
         for (var i = 0; i < document.styleSheets.length; i++) {
-            var classes = document.styleSheets[i].rules || document.styleSheets[i].cssRules
-            if (classes != null){
-                for (var x = 0; x < classes.length; x++) {
-                    if (classes[x].selectorText == className) {
-                        return classes[x].style;
+            // Only check rules property of local css files. External files will throw a permission error.
+            if (!document.styleSheets[i].href || document.styleSheets[i].href.startsWith(window.location.origin)) {
+                var classes = document.styleSheets[i].cssRules
+                if (classes != null){
+                    for (var x = 0; x < classes.length; x++) {
+                        if (classes[x].selectorText == className) {
+                            return classes[x].style;
+                        }
                     }
                 }
             }
